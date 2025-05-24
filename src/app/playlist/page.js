@@ -144,13 +144,22 @@ export default function Home() {
     }
 
     const removeFromPlaylist = (songId, playlistId) => {
+
         setPlaylists(playlists.map(playlist => {
             if (playlist.id === playlistId) {
                 return { ...playlist, songs: playlist.songs.filter(s => s.id !== songId) }
             }
             return playlist
         }))
-    }
+
+        setSelectedPlaylist(prev => {
+            if (!prev) return prev;
+            return {
+                ...prev,
+                songs: prev.songs.filter(song => song.id !== songId),
+            };
+        });
+    };
 
     const deletePlaylist = (playlistId) => {
         setPlaylists(playlists.filter(p => p.id !== playlistId))
